@@ -8,7 +8,7 @@ import './Css/components/button.css';
 import './Css/components/alerts.css';
 import './Css/components/loading.css';
 import './Css/components/google.css';
-import './Pages/Auth/Auth.css'
+import './Pages/Auth/AuthOperations/Auth.css'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MenuContext from './Context/MenuContext';

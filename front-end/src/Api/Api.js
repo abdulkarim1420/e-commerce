@@ -10,5 +10,13 @@ export const LOGOUT = "logout";
 export const USERS = "users";
 export const USER = "user";
 
+// Categories
+export const CATEGORIES = "categories";
+export const CATEGORY = "category";
+
+// Products
+export const PRODUCTS = "products";
+export const PRODUCT = "product";
+
 // Google
 export const GOOGLE_CALL_BACK = "auth/google/callback";
