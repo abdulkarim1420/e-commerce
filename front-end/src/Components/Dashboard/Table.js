@@ -1,13 +1,18 @@
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Table } from "react-bootstrap";
+import { Table, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import PaginatedItems from "./Pagination/Pagination";
 
 export default function TableShow(props) {
 
     const currentUser = props.currentUser || {
         name: '',
     };
+    // Variables for Pagination
+    // const start = (props.page - 1) * props.limit;
+    // const end = Number(start) + Number(props.limit);
+    // const final = props.data.slice(start, end);
 
     // Header Show
     const headerShow = props.header.map((item, key) => <th key={key}>{item.name}</th>);
@@ -15,7 +20,7 @@ export default function TableShow(props) {
     // Body Show
     const dataShow = props.data.map((item, key) => 
     <tr key={key}>
-        <td>{key + 1}</td>
+        <td key={key}>{item.id}</td>
         {props.header.map((item2, key2) => <td key={key2}>{
         // Show Image
         item2.key === 'image' ? <img src={item[item2.key]} alt="image" width="100" />
@@ -39,6 +44,7 @@ export default function TableShow(props) {
 
     // Return Data
     return (
+        <>
         <Table striped bordered hover>
             <thead>
                 <tr>
@@ -48,13 +54,26 @@ export default function TableShow(props) {
                 </tr>
             </thead>
             <tbody>
-            {props.data.length === 0 && 
+            {props.loading ? 
                 <tr>
                     <td colSpan={12} className="text-center">Loading...</td>
                 </tr>
+                : dataShow
             }
-                {dataShow}
             </tbody>
         </Table>
+
+        <div className="d-flex align-items-center justify-content-end flex-wrap">
+            <div className="col-1">
+                <Form.Select onChange={(e) => props.setLimit(e.target.value)} aria-label="Default select example">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </Form.Select>
+            </div>
+            <PaginatedItems setPage={props.setPage} itemsPerPage={props.limit} data={props.data} total={props.total} />
+        </div>
+        </>
     )
   }

@@ -7,14 +7,25 @@ import TableShow from "../../../Components/Dashboard/Table";
 export default function Categories() {
         // States
         const [categories, setCategories] = useState([]);
+        // States for Pagination
+        const [page, setPage] = useState(1);
+        const [limit, setLimit] = useState(3);
+        const [total, setTotal] = useState(0);
+        // Loading
+        const [loading, setLoading] = useState(false);
 
-    
         // Get All Categories
         useEffect(() => {
-            Axios.get(`/${CATEGORIES}`)
-            .then((data) => setCategories(data.data))
-            .catch((err) => console.log(err));
-        }, []);
+            setLoading(true);
+            Axios.get(`/${CATEGORIES}?limit=${limit}&page=${page}`)
+            .then((data) => {
+              setCategories(data.data.data);
+              setTotal(data.data.total);
+              console.log(data.data)
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+        }, [limit, page]);
 
         const header = [
           {
@@ -44,7 +55,8 @@ export default function Categories() {
                     <Link className="btn btn-primary" to="/dashboard/category/add">Add Category</Link>
                 </div>
                 
-                <TableShow header={header} data={categories} delete={handleDelete} />
+                <TableShow header={header} data={categories} delete={handleDelete} page={page} limit={limit} setLimit={setLimit} setPage={setPage} total={total} loading={loading} />
+      
             </div>
         )
   }

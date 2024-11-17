@@ -7,13 +7,24 @@ import TableShow from "../../../Components/Dashboard/Table";
 export default function Products() {
         // States
         const [products, setProducts] = useState([]);
+        // States for Pagination
+        const [page, setPage] = useState(1);
+        const [limit, setLimit] = useState(3);
+        const [total, setTotal] = useState(0);
+        // Loading
+        const [loading, setLoading] = useState(false);
 
         // Get All Products
         useEffect(() => {
-            Axios.get(`/${PRODUCTS}`)
-            .then((data) => setProducts(data.data))
-            .catch((err) => console.log(err));
-        }, []);
+            setLoading(true);
+            Axios.get(`/${PRODUCTS}?limit=${limit}&page=${page}`)
+            .then((data) => {
+              setProducts(data.data.data);
+              setTotal(data.data.total);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+        }, [limit, page]);
 
         const header = [
           {
@@ -55,7 +66,8 @@ export default function Products() {
                     <Link className="btn btn-primary" to="/dashboard/product/add">Add Product</Link>
                 </div>
                 
-                <TableShow header={header} data={products} delete={handleDelete} />
+                <TableShow header={header} data={products} delete={handleDelete} page={page} limit={limit} setLimit={setLimit} setPage={setPage} total={total} loading={loading} />
+
             </div>
         )
   }

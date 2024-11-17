@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Axios } from '../../../Api/axios';
-import { CATEGORY, USER } from '../../../Api/Api';
+import { CATEGORY } from '../../../Api/Api';
 import Loading from '../../../Components/Loading/Loading';
 import { useNavigate, useParams } from 'react-router-dom';
 
